@@ -9,6 +9,10 @@ import { rateLimiterKey } from "../core/utils.js";
 
 export async function slidingLimiter(req, res, next) {
   const key = rateLimiterKey(req.ip, RateLimiterType.SLIDING);
+  const requests = await redis.zrange(key, 0, -1, "WITHSCORES");
+
+  console.log(requests);
+
   try {
     const now = Date.now();
 
